@@ -7,7 +7,7 @@ const createMenuIntoDB = async (menuInfo: IMenu) => {
 };
 
 const getAllMenuFromDB = async () => {
-  const result = await Menu.find();
+  const result = await Menu.find().populate('category');
   return result;
 };
 
