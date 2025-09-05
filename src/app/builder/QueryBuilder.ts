@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
@@ -41,12 +42,14 @@ class QueryBuilder<T> {
     excludeFields.forEach(el => delete queryObj[el]);
 
     const conditions: Record<string, unknown> = { ...queryObj };
+
     this.modelQuery = this.modelQuery.find(conditions);
 
+    // Post-filter for category
     if (this.query.category) {
       const categories = (this.query.category as string)
         .split(',')
-        .map((c: string) => c.trim().toLowerCase());
+        .map(c => c.trim().toLowerCase());
       this.postFilters.push(docs =>
         docs.filter(doc =>
           // @ts-ignore
@@ -54,6 +57,7 @@ class QueryBuilder<T> {
         ),
       );
     }
+
     return this;
   }
 
@@ -64,14 +68,6 @@ class QueryBuilder<T> {
     return this;
   }
 
-  paginate() {
-    const page = Number(this.query.page) || 1;
-    const limit = Number(this.query.limit) || 10;
-    const skip = (page - 1) * limit;
-    this.modelQuery = this.modelQuery.skip(skip).limit(limit);
-    return this;
-  }
-
   fields() {
     const fields = (this.query.fields as string)?.split(',')?.join(' ');
     if (fields) {
@@ -79,7 +75,7 @@ class QueryBuilder<T> {
       if (includeCategory) {
         this.modelQuery = this.modelQuery.populate({
           path: 'category',
-          select: 'catName', // populate only needed fields
+          select: 'catName',
         });
         const topFields = fields
           .split(' ')
@@ -90,32 +86,35 @@ class QueryBuilder<T> {
         this.modelQuery = this.modelQuery.select(fields).populate('category');
       }
     } else {
-      this.modelQuery = this.modelQuery.populate('category'); // default populate
+      this.modelQuery = this.modelQuery.populate('category');
     }
     return this;
   }
 
-  async exec() {
+  // Execute query with post-filters and internal pagination
+  async getPaginatedData() {
     let results = await this.modelQuery.exec();
+
+    // Apply post-filters (like category)
     this.postFilters.forEach(fn => {
       results = fn(results);
     });
 
-    // Handle total count and pagination meta
     const page = Number(this.query.page) || 1;
     const limit = Number(this.query.limit) || 10;
     const total = results.length;
     const totalPages = Math.ceil(total / limit);
 
-    // Apply manual pagination for post-filtered results
     const skip = (page - 1) * limit;
     const paginatedData = results.slice(skip, skip + limit);
 
     return {
-      page,
-      limit,
-      total,
-      totalPages,
+      meta: {
+        page,
+        limit,
+        total,
+        totalPages,
+      },
       data: paginatedData,
     };
   }
