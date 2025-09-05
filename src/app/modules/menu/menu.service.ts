@@ -6,9 +6,35 @@ const createMenuIntoDB = async (menuInfo: IMenu) => {
   return result;
 };
 
-const getAllMenuFromDB = async () => {
-  const result = await Menu.find().populate('category');
-  return result;
+const getAllMenuFromDB = async (query: Record<string, any>) => {
+  const queryObj = { ...query };
+  const menuSearchableFields = ['itemName', 'category.catName'];
+
+  let searchTerm = '';
+  if (query.searchTerm) {
+    searchTerm = query.searchTerm;
+  }
+
+  const searchQuery = Menu.find({
+    $or: menuSearchableFields.map(field => ({
+      [field]: { $regex: searchTerm, $options: 'i' },
+    })),
+  }).populate('category');
+
+  const excludeFields = ['searchTerm', 'category'];
+  excludeFields.forEach(field => delete queryObj[field]);
+  console.log(queryObj);
+
+  let filterQuery = await searchQuery.find(queryObj);
+  if (query.category) {
+    filterQuery = filterQuery.filter(
+      menu =>
+        // @ts-ignore
+        menu.category?.catName?.toLowerCase() === query.category.toLowerCase(),
+    );
+  }
+
+  return filterQuery;
 };
 
 export const menuServices = {

@@ -14,7 +14,7 @@ const createMenu = catchAsync(async (req, res) => {
 });
 
 const getAllMenu = catchAsync(async (req, res) => {
-  const result = await menuServices.getAllMenuFromDB();
+  const result = await menuServices.getAllMenuFromDB(req.query);
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
