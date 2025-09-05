@@ -70,24 +70,7 @@ class QueryBuilder<T> {
 
   fields() {
     const fields = (this.query.fields as string)?.split(',')?.join(' ');
-    if (fields) {
-      const includeCategory = fields.split(' ').includes('category');
-      if (includeCategory) {
-        this.modelQuery = this.modelQuery.populate({
-          path: 'category',
-          select: 'catName',
-        });
-        const topFields = fields
-          .split(' ')
-          .filter(f => f !== 'category')
-          .join(' ');
-        if (topFields) this.modelQuery = this.modelQuery.select(topFields);
-      } else {
-        this.modelQuery = this.modelQuery.select(fields).populate('category');
-      }
-    } else {
-      this.modelQuery = this.modelQuery.populate('category');
-    }
+    this.modelQuery = this.modelQuery.select(fields);
     return this;
   }
 

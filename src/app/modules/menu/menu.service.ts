@@ -10,7 +10,7 @@ const createMenuIntoDB = async (menuInfo: IMenu) => {
 const getAllMenuFromDB = async (query: Record<string, any>) => {
   const menuSearchableFields = ['itemName', 'category.catName'];
 
-  const builder = new QueryBuilder(Menu.find(), query)
+  const builder = new QueryBuilder(Menu.find().populate('category'), query)
     .search(menuSearchableFields)
     .filter()
     .sort()

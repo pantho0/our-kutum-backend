@@ -19,7 +19,7 @@ const createReservation: RequestHandler = catchAsync(async (req, res) => {
 });
 
 const getAllReservations = catchAsync(async (req, res) => {
-  const result = await ReservationService.getAllReservations();
+  const result = await ReservationService.getAllReservations(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
