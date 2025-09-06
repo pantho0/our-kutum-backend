@@ -5,7 +5,7 @@ import status from 'http-status';
 
 export const createToken = (
   jwtPayload: {
-    userId: Types.ObjectId;
+    userId: Types.ObjectId | undefined;
     role: 'admin' | 'user';
     fullName: string;
     email: string;

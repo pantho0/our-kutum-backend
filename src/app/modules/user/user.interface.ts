@@ -1,10 +1,12 @@
-import { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 
 export interface IUser {
+  _id?: Types.ObjectId;
   fullName: string;
   email: string;
   password: string;
   userImg: string;
+  role: 'admin' | 'user';
   isDeleted: boolean;
 }
 
