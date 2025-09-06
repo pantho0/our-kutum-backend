@@ -21,7 +21,15 @@ const getAllMenuFromDB = async (query: Record<string, any>) => {
   return result;
 };
 
+const updateMenuIntoDB = async (id: string, menuInfo: IMenu) => {
+  const result = await Menu.findByIdAndUpdate(id, menuInfo, {
+    new: true,
+  });
+  return result;
+};
+
 export const menuServices = {
   createMenuIntoDB,
   getAllMenuFromDB,
+  updateMenuIntoDB,
 };

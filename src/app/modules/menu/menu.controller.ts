@@ -23,7 +23,19 @@ const getAllMenu = catchAsync(async (req, res) => {
   });
 });
 
+const updateMenu = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await menuServices.updateMenuIntoDB(id, req.body);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'Menu updated successfully',
+    data: result,
+  });
+});
+
 export const menuControllers = {
   createMenu,
   getAllMenu,
+  updateMenu,
 };
