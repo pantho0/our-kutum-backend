@@ -116,9 +116,44 @@ const resetPasswordIntoDB = async (
   );
 };
 
+const accessTokenWithRefreshToken = async (payload: string) => {
+  let decoded: JwtPayload | Error;
+  try {
+    decoded = verifyToken(payload, config.jwt_refresh_secret as string);
+  } catch (error: any) {
+    throw new AppError(status.BAD_REQUEST, 'Invalid Credentials');
+  }
+
+  const { userId, role, email, fullName } = decoded as JwtPayload;
+
+  const user = await User.isUserExist(email);
+
+  if (!user) {
+    throw new AppError(status.NOT_FOUND, 'User not found');
+  }
+
+  const jwtPayload = {
+    userId,
+    fullName,
+    role,
+    email,
+  };
+
+  const accessToken = createToken(
+    jwtPayload,
+    config.jwt_access_secret!,
+    config.jwt_acces_exp!,
+  );
+
+  return {
+    accessToken,
+  };
+};
+
 export const AuthServices = {
   loginUser,
   changePasswordIntoDB,
   forgetPasswordGenerator,
   resetPasswordIntoDB,
+  accessTokenWithRefreshToken,
 };
