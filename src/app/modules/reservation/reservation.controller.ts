@@ -29,7 +29,24 @@ const getAllReservations = catchAsync(async (req, res) => {
   });
 });
 
+const reservationUpdate = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+
+  const result = await ReservationService.reservationStatusUpdateIntoDB(
+    id,
+    req.body.status,
+  );
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Reservation updated successfully',
+    data: result,
+  });
+});
+
 export const ReservationController = {
   createReservation,
   getAllReservations,
+  reservationUpdate,
 };

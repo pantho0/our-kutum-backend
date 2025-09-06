@@ -21,7 +21,17 @@ const getAllReservations = async (query: Record<string, any>) => {
   return result;
 };
 
+const reservationStatusUpdateIntoDB = async (id: string, status: string) => {
+  const result = await Reservation.findByIdAndUpdate(
+    id,
+    { status },
+    { new: true },
+  );
+  return result;
+};
+
 export const ReservationService = {
   createReservation,
   getAllReservations,
+  reservationStatusUpdateIntoDB,
 };
