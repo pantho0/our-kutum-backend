@@ -9,7 +9,7 @@ export interface IUser {
   userImg: string;
   role: 'admin' | 'user';
   passwordChagedAt?: Date;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
 
 export interface UserModel extends Model<IUser> {

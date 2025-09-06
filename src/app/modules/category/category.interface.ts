@@ -1,4 +1,4 @@
 export interface ICategory {
   catName: string;
-  isDeleted: boolean;
+  isDeleted?: boolean;
 }
