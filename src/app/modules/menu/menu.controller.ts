@@ -34,8 +34,31 @@ const updateMenu = catchAsync(async (req, res) => {
   });
 });
 
+const deleteMenu = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await menuServices.deleteMenuIntoDB({ id });
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'Menu deleted successfully',
+    data: result,
+  });
+});
+
+const getDeletedMenus = catchAsync(async (req, res) => {
+  const result = await menuServices.getDeletedMenusFromDB(req.query);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'Deleted menus fetched successfully',
+    data: result,
+  });
+});
+
 export const menuControllers = {
   createMenu,
   getAllMenu,
   updateMenu,
+  getDeletedMenus,
+  deleteMenu,
 };

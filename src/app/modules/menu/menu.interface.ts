@@ -5,5 +5,6 @@ export interface IMenu {
   itemName: string;
   price: number;
   description: string;
+  isDeleted: boolean;
   image: string;
 }

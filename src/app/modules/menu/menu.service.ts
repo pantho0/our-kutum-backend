@@ -28,8 +28,43 @@ const updateMenuIntoDB = async (id: string, menuInfo: IMenu) => {
   return result;
 };
 
+const deleteMenuIntoDB = async (payload: { id: string }) => {
+  const menu = await Menu.findByIdAndUpdate(
+    payload.id,
+    [
+      {
+        $set: {
+          isDeleted: { $not: '$isDeleted' },
+        },
+      },
+    ],
+    { new: true },
+  );
+
+  return menu;
+};
+
+const getDeletedMenusFromDB = async (query: Record<string, any>) => {
+  const menuSearchableFields = ['itemName', 'category.catName'];
+
+  const baseQuery = Menu.find({ isDeleted: true })
+    .setOptions({ includeDeleted: true })
+    .populate('category');
+
+  const builder = new QueryBuilder(baseQuery, query)
+    .search(menuSearchableFields)
+    .filter()
+    .sort()
+    .fields();
+
+  const result = await builder.getPaginatedData();
+  return result;
+};
+
 export const menuServices = {
   createMenuIntoDB,
   getAllMenuFromDB,
   updateMenuIntoDB,
+  deleteMenuIntoDB,
+  getDeletedMenusFromDB,
 };

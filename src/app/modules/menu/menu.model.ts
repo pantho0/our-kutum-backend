@@ -24,10 +24,30 @@ const menuSchema = new Schema<IMenu>(
       type: String,
       required: true,
     },
+    isDeleted: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
   },
 );
+
+menuSchema.pre('find', function (next) {
+  const opts = this.getOptions?.() || {};
+  if (!opts.includeDeleted) {
+    this.find({ isDeleted: { $ne: true } });
+  }
+  next();
+});
+
+menuSchema.pre('findOne', function (next) {
+  const opts = this.getOptions?.() || {};
+  if (!opts.includeDeleted) {
+    this.find({ isDeleted: { $ne: true } });
+  }
+  next();
+});
 
 export const Menu = model<IMenu>('Menu', menuSchema);
