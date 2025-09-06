@@ -2,7 +2,7 @@ import status from 'http-status';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLogin } from './auth.interface';
-import { createToken } from './auth.utils';
+import { createToken, verifyToken } from './auth.utils';
 import config from '../../config';
 import { JwtPayload } from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
@@ -85,8 +85,40 @@ const forgetPasswordGenerator = async (payload: { email: string }) => {
   return null;
 };
 
+const resetPasswordIntoDB = async (
+  payload: { email: string; newPassword: string },
+  token: string,
+) => {
+  const user = await User.isUserExist(payload.email);
+  if (!user) throw new AppError(status.NOT_FOUND, 'User not found');
+  if (user?.isDeleted)
+    throw new AppError(status.UNAUTHORIZED, 'User is deleted');
+
+  const decoded = verifyToken(
+    token,
+    config.jwt_access_secret as string,
+  ) as JwtPayload;
+
+  if (decoded.email !== payload.email)
+    throw new AppError(status.UNAUTHORIZED, 'Invalid email');
+
+  const newHashedPassword = await bcrypt.hash(
+    payload.newPassword,
+    Number(config.salt_round),
+  );
+
+  await User.findOneAndUpdate(
+    { email: decoded.email, role: decoded.role },
+    {
+      password: newHashedPassword,
+      passwordChagedAt: new Date(),
+    },
+  );
+};
+
 export const AuthServices = {
   loginUser,
   changePasswordIntoDB,
   forgetPasswordGenerator,
+  resetPasswordIntoDB,
 };
