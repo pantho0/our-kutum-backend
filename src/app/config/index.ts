@@ -12,4 +12,7 @@ export default {
   jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
   jwt_acces_exp: process.env.JWT_ACCESS_EXP,
   jwt_refresh_exp: process.env.JWT_REFRESH_EXP,
+  nodemailer_gmail: process.env.NODEMAILER_GMAIL,
+  nodemailer_gmail_pass: process.env.NODEMAILER_GMAIL_PASS,
+  reset_ui_link: process.env.RESET_UI_LINK,
 };
