@@ -31,8 +31,25 @@ const changeUserRoleIntoDB = async (payload: { id: string; role: string }) => {
   return user;
 };
 
+const deleteUserIntoDB = async (payload: { id: string }) => {
+  const user = await User.findByIdAndUpdate(
+    payload.id,
+    [
+      {
+        $set: {
+          isDeleted: { $not: '$isDeleted' },
+        },
+      },
+    ],
+    { new: true },
+  );
+
+  return user;
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
   changeUserRoleIntoDB,
+  deleteUserIntoDB,
 };
