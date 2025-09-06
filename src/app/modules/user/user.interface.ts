@@ -1,4 +1,5 @@
 import { Model, Types } from 'mongoose';
+import { USER_ROLE } from './user.const';
 
 export interface IUser {
   _id?: Types.ObjectId;
@@ -7,6 +8,7 @@ export interface IUser {
   password: string;
   userImg: string;
   role: 'admin' | 'user';
+  passwordChagedAt?: Date;
   isDeleted: boolean;
 }
 
@@ -22,3 +24,5 @@ export interface UserModel extends Model<IUser> {
     jwtIssuedTimeStamp: number,
   ): boolean;
 }
+
+export type TUserRole = keyof typeof USER_ROLE;
