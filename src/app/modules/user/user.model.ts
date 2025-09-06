@@ -27,6 +27,7 @@ const userSchema = new Schema<IUser, UserModel>(
     },
     passwordChagedAt: {
       type: Date,
+      default: null,
     },
     isDeleted: {
       type: Boolean,
