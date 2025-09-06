@@ -17,7 +17,22 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
+const changeUserRoleIntoDB = async (payload: { id: string; role: string }) => {
+  const user = await User.findByIdAndUpdate(
+    payload.id,
+    {
+      $set: {
+        role: payload.role,
+      },
+    },
+    { new: true },
+  );
+
+  return user;
+};
+
 export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
+  changeUserRoleIntoDB,
 };
