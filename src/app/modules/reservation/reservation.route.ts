@@ -1,10 +1,23 @@
 import express from 'express';
 import { ReservationController } from './reservation.controller';
+import validateRequest from '../../middlewares/validateRequest';
+import {
+  createReservationSchema,
+  updateReservationSchema,
+} from './reservation.validation';
 
 const router = express.Router();
 
-router.post('/create-reservation', ReservationController.createReservation);
+router.post(
+  '/create-reservation',
+  validateRequest(createReservationSchema),
+  ReservationController.createReservation,
+);
 router.get('/', ReservationController.getAllReservations);
-router.put('/update-reservation/:id', ReservationController.reservationUpdate);
+router.put(
+  '/update-reservation/:id',
+  validateRequest(updateReservationSchema),
+  ReservationController.reservationUpdate,
+);
 
 export const ReservationRoutes = router;

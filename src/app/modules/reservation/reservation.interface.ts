@@ -6,6 +6,6 @@ export type IReservation = {
   phone: string;
   headCount: number;
   status: ReservationStatus;
-  date: string; // ISO date string
-  time: string; // in 24h format like '14:30'
+  date: string;
+  time: string;
 };
