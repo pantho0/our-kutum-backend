@@ -15,4 +15,7 @@ export default {
   nodemailer_gmail: process.env.NODEMAILER_GMAIL,
   nodemailer_gmail_pass: process.env.NODEMAILER_GMAIL_PASS,
   reset_ui_link: process.env.RESET_UI_LINK,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  cloud_api_key: process.env.CLOUDINARY_API_KEY,
+  cloud_api_secret: process.env.CLOUDINARY_API_SECRET,
 };
