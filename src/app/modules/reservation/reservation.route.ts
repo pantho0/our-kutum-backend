@@ -13,7 +13,7 @@ router.post(
   validateRequest(createReservationSchema),
   ReservationController.createReservation,
 );
-router.get('/', ReservationController.getAllReservations);
+router.get('/get-all-reservation', ReservationController.getAllReservations);
 router.put(
   '/update-reservation/:id',
   validateRequest(updateReservationSchema),

@@ -8,7 +8,7 @@ const createReservation = async (payload: IReservation) => {
 };
 
 const getAllReservations = async (query: Record<string, any>) => {
-  const reservationSearchableFields = ['customerName', 'phone'];
+  const reservationSearchableFields = ['customerName', 'phone', 'email'];
 
   const builder = new QueryBuilder(Reservation.find(), query)
     .search(reservationSearchableFields)
