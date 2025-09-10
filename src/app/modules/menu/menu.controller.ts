@@ -23,6 +23,17 @@ const getAllMenu = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleMenu = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await menuServices.getSingleMenuFromDB(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'Menu fetched successfully',
+    data: result,
+  });
+});
+
 const updateMenu = catchAsync(async (req, res) => {
   const id = req.params.id as string;
   const result = await menuServices.updateMenuIntoDB(id, req.body);
@@ -61,4 +72,5 @@ export const menuControllers = {
   updateMenu,
   getDeletedMenus,
   deleteMenu,
+  getSingleMenu,
 };

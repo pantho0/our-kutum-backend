@@ -11,6 +11,7 @@ router.post(
   menuControllers.createMenu,
 );
 router.get('/', menuControllers.getAllMenu);
+router.get('/:id', menuControllers.getSingleMenu);
 router.put(
   '/:id',
   validateRequest(updateMenuSchema),
