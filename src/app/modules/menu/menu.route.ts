@@ -11,12 +11,12 @@ router.post(
   menuControllers.createMenu,
 );
 router.get('/', menuControllers.getAllMenu);
+router.get('/deleted', menuControllers.getDeletedMenus);
 router.get('/:id', menuControllers.getSingleMenu);
 router.put(
   '/:id',
   validateRequest(updateMenuSchema),
   menuControllers.updateMenu,
 );
-router.get('/deleted', menuControllers.getDeletedMenus);
 router.delete('/:id', menuControllers.deleteMenu);
 export const MenuRoutes = router;
