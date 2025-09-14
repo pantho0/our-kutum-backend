@@ -23,6 +23,17 @@ const getAllUser = catchAsync(async (req, res) => {
   });
 });
 
+const getSingleUser = catchAsync(async (req, res) => {
+  const id = req.params.id as string;
+  const result = await UserServices.getSingleUserFromDB(id);
+  sendResponse(res, {
+    statusCode: status.OK,
+    success: true,
+    message: 'User fetched successfully',
+    data: result,
+  });
+});
+
 const changeUserRole = catchAsync(async (req, res) => {
   const result = await UserServices.changeUserRoleIntoDB(req.body);
   sendResponse(res, {
@@ -46,6 +57,7 @@ const deleteUser = catchAsync(async (req, res) => {
 export const userControllers = {
   createUser,
   getAllUser,
+  getSingleUser,
   changeUserRole,
   deleteUser,
 };

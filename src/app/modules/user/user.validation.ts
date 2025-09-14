@@ -12,7 +12,10 @@ export const createUserSchema = z.object({
     password: z
       .string()
       .min(6, { message: 'Password must be at least 6 characters long' }),
-    userImg: z.string().url({ message: 'User image must be a valid URL' }),
+    userImg: z
+      .string()
+      .url({ message: 'User image must be a valid URL' })
+      .optional(),
     role: userRoleEnum.default('user'),
     isDeleted: z.boolean().optional().default(false),
   }),

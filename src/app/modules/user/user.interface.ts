@@ -6,7 +6,7 @@ export interface IUser {
   fullName: string;
   email: string;
   password: string;
-  userImg: string;
+  userImg?: string;
   role: 'admin' | 'user';
   passwordChagedAt?: Date;
   isDeleted?: boolean;

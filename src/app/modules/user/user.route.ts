@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/', validateRequest(createUserSchema), userControllers.createUser);
 router.get('/', userControllers.getAllUser);
+router.get('/:id', userControllers.getSingleUser);
 router.patch(
   '/change-role',
   validateRequest(updateUserSchema),

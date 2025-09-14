@@ -17,6 +17,11 @@ const getAllUserFromDB = async () => {
   return result;
 };
 
+const getSingleUserFromDB = async (id: string) => {
+  const result = await User.findById(id);
+  return result;
+};
+
 const changeUserRoleIntoDB = async (payload: { id: string; role: string }) => {
   const user = await User.findByIdAndUpdate(
     payload.id,
@@ -50,6 +55,7 @@ const deleteUserIntoDB = async (payload: { id: string }) => {
 export const UserServices = {
   createUserIntoDB,
   getAllUserFromDB,
+  getSingleUserFromDB,
   changeUserRoleIntoDB,
   deleteUserIntoDB,
 };

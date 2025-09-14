@@ -23,7 +23,7 @@ const userSchema = new Schema<IUser, UserModel>(
     },
     userImg: {
       type: String,
-      required: true,
+      default: null,
     },
     passwordChagedAt: {
       type: Date,
