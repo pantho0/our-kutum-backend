@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import status from 'http-status';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';

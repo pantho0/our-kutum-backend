@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import QueryBuilder from '../../builder/QueryBuilder';
 import { IReservation } from './reservation.interface';
 import { Reservation } from './reservation.model';

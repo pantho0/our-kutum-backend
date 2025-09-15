@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
@@ -52,7 +52,7 @@ class QueryBuilder<T> {
         .map(c => c.trim().toLowerCase());
       this.postFilters.push(docs =>
         docs.filter(doc =>
-          // @ts-ignore
+          // @ts-expect-error
           categories.includes(doc.category?.catName?.toLowerCase()),
         ),
       );

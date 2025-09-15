@@ -1,4 +1,3 @@
-import { Request, Response } from 'express';
 import { RequestHandler } from 'express-serve-static-core';
 import httpStatus from 'http-status';
 import catchAsync from '../../utils/catchAsync';
