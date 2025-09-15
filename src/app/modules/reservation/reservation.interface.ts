@@ -4,8 +4,8 @@ export type IReservation = {
   customerName: string;
   email: string;
   phone: string;
-  headCount: number;
-  status: ReservationStatus;
+  headCount: string;
+  status?: ReservationStatus;
   date: string;
   time: string;
 };

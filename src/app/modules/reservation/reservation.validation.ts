@@ -14,21 +14,14 @@ export const createReservationSchema = z.object({
       .string()
       .min(7, { message: 'Phone number too short' })
       .max(20, { message: 'Phone number too long' }),
-    headCount: z
-      .number()
-      .int({ message: 'Head count must be an integer' })
-      .min(1, { message: 'Head count must be at least 1' }),
+    headCount: z.string().min(1, { message: 'Head count must be at least 1' }),
     status: reservationStatusEnum.default('upcoming'),
-    date: z
-      .string()
-      .regex(/^\d{4}-\d{2}-\d{2}$/, {
-        message: 'Date must be in YYYY-MM-DD format',
-      }),
-    time: z
-      .string()
-      .regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-        message: 'Time must be in HH:mm format',
-      }),
+    date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, {
+      message: 'Date must be in YYYY-MM-DD format',
+    }),
+    time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+      message: 'Time must be in HH:mm format',
+    }),
   }),
 });
 

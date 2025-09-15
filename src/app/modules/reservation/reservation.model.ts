@@ -18,7 +18,7 @@ const reservationSchema = new Schema<IReservation>(
       trim: true,
     },
     headCount: {
-      type: Number,
+      type: String,
       required: true,
       min: 1,
     },
